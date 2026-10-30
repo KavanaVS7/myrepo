@@ -11,11 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Deploy to EC2
         env:
           KEY: ${{ secrets.EC2_PRIVATE_KEY }}
           HOST: ${{ secrets.EC2_HOST }}
         run: |
           echo "$KEY" > key.pem
           chmod 600 key.pem
-          scp -i key.pem node.js ec2-user@$HOST:app/node.js
+
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+
+          scp -i key.pem node.js ec2-user@$HOST:/home/ec2-user/app/node.js
