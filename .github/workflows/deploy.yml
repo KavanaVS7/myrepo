@@ -18,4 +18,4 @@ jobs:
         run: |
           echo "$KEY" > key.pem
           chmod 600 key.pem
-          scp -i key.pem app.js ec2-user@$HOST:my-app/app.js
+          scp -i key.pem node.js ec2-user@$HOST:app/node.js
